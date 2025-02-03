@@ -1,12 +1,34 @@
-import React, { useState } from "react";
+import TaskModal from "./TaskModal";
+import { useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import "../styles/Task.css";
 
-const Task = ({ task, index, deleteTask }) => {
+const Task = ({ task, index, deleteTask, updateTask }) => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleDelete = () => {
     deleteTask(task.id);
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+    setShowDropdown(false);
+  };
+
+  const handleSave = (updatedTask) => {
+    updateTask(task.id, updatedTask);
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
+
+  const isPastDue = (dueDate) => {
+    const today = new Date();
+    const due = new Date(dueDate);
+    return due.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0);
   };
 
   return (
@@ -27,6 +49,7 @@ const Task = ({ task, index, deleteTask }) => {
               <span>...</span>
               {showDropdown && (
                 <div className="dropdown">
+                  <button onClick={handleEdit}>Edit</button>
                   <button onClick={handleDelete}>Delete</button>
                 </div>
               )}
@@ -35,12 +58,28 @@ const Task = ({ task, index, deleteTask }) => {
           <div className="task-details">
             <div className="task-misc">
               <p>{task.assignee}</p>
-              <p>{task.dueDate}</p>
+              <p
+                className="task-date"
+                style={{
+                  color: isPastDue(task.dueDate) ? "red" : "green",
+                }}
+              >
+                {task.dueDate}
+              </p>
             </div>
             <div className="task-desc">
               <p>{task.description}</p>
             </div>
           </div>
+
+          {isEditing && (
+            <TaskModal
+              task={task}
+              isEditing={true}
+              onSave={handleSave}
+              onCancel={handleCancel}
+            />
+          )}
         </div>
       )}
     </Draggable>

@@ -1,9 +1,15 @@
 .task-card {
   /* border: 2px solid red; */
+  width: 90%;
   background: white;
   border-radius: 15px;
   padding: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.task-card:hover {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.363);
 }
 
 .task-header {
@@ -55,6 +61,10 @@
 .task-misc {
   display: flex;
   gap: 5px;
+}
+
+.task-date {
+  font-weight: 600;
 }
 
 .task-desc {
