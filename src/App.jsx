@@ -22,7 +22,6 @@ const App = () => {
     }
   );
 
-  // Save both sections and tasks to local storage
   const saveAppData = (updatedSections, updatedTasks) => {
     saveData({ sections: updatedSections, tasks: updatedTasks });
   };
