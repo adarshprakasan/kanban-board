@@ -4,6 +4,7 @@ import { saveData, loadData } from "./utils/storage";
 import { useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import "./styles/App.css";
+import TopBar from "./components/TopBar";
 
 const App = () => {
   const [sections, setSections] = useState(
@@ -13,6 +14,9 @@ const App = () => {
       { id: "done", title: "Done" },
     ]
   );
+
+  const boardCount = 3;
+  const memberCount = 24;
 
   const [tasks, setTasks] = useState(
     loadData()?.tasks || {
@@ -107,6 +111,7 @@ const App = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="app">
+        <TopBar boardCount={boardCount} memberCount={memberCount} />
         <div className="sections">
           {sections.map((section) => (
             <Section
